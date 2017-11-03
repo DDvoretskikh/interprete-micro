@@ -1,0 +1,50 @@
+# depslib dependency file v1.0
+1509404786 source:c:\users\elect\desktop\sintaxis\lexyacc\lex.yy.c
+	<stdio.h>
+	<string.h>
+	<errno.h>
+	<stdlib.h>
+	<inttypes.h>
+	"parser.tab.h"
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+
+1509404788 c:\users\elect\desktop\sintaxis\lexyacc\parser.tab.h
+
+1509404788 source:c:\users\elect\desktop\sintaxis\lexyacc\parser.tab.c
+	<math.h>
+	<stdio.h>
+	<stddef.h>
+	<libintl.h>
+	<alloca.h>
+	<malloc.h>
+	<stdlib.h>
+	<stdlib.h>
+	<stdio.h>
+
+1509654004 source:c:\users\elect\desktop\lexyacc\parser.tab.c
+	<math.h>
+	<stdio.h>
+	<stddef.h>
+	<libintl.h>
+	<alloca.h>
+	<malloc.h>
+	<stdlib.h>
+	<stdlib.h>
+	<stdio.h>
+
+1509654005 source:c:\users\elect\desktop\lexyacc\lex.yy.c
+	<stdio.h>
+	<string.h>
+	<errno.h>
+	<stdlib.h>
+	<inttypes.h>
+	"parser.tab.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+
+1509654004 c:\users\elect\desktop\lexyacc\parser.tab.h
+
