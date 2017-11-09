@@ -1,0 +1,4 @@
+inicio
+	xx := 2 + y;
+	escribir(x,y);
+fin

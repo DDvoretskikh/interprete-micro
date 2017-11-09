@@ -1,7 +1,8 @@
 inicio
-	leer(a,b);
-	ccccccccccccccccccccccccccccccccccccccccccccccccc := a + (b - 2);
-	escribir(cc, a+4);
+	leer( a ,b);
+	y := 1;
+	x := 3;
+	escribir( a );
 fin
 
 

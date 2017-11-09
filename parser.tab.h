@@ -46,8 +46,8 @@ extern int yydebug;
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     IDENTIFICADOR = 258,
-     CONSTANTE = 259,
+     CONSTANTE = 258,
+     IDENTIFICADOR = 259,
      MAS = 260,
      MENOS = 261,
      ASIGNACION = 262,
@@ -68,13 +68,14 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 10 "parser.y"
+#line 30 "parser.y"
 
 	int entero;
+    char* nombre;
 
 
 /* Line 2058 of yacc.c  */
-#line 78 "parser.tab.h"
+#line 79 "parser.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -5,12 +5,14 @@
 #include <string.h>
 
 int lineas = 0;
+int cantvariables = 0;
 
+struct variable{
+    int valor;
+    char* nombre;
+} variables[20];
 
-
-void esCorrectoIdentificador(char*);
-
-
+int esCorrectoIdentificador(char*);
 
 %}
 
@@ -19,8 +21,7 @@ void esCorrectoIdentificador(char*);
 espacio [ \t]+
 digito [0-9]
 constante {digito}+
-letra [a-zA-Z]
-identificador {letra}+
+identificador ([a-zA-Z])([a-zA-Z0-9])*
 
 
 
@@ -31,6 +32,10 @@ identificador {letra}+
 "fin"				{return(FIN);}
 "leer"				{return(LEER);}
 "escribir"			{return(ESCRIBIR);}
+{identificador}		{strcpy(yylval.nombre,yytext); esCorrectoIdentificador(yytext); return(IDENTIFICADOR);}
+{constante}			{yylval.entero=atoi(yytext); return(CONSTANTE);}
+
+
 
 ":="				{return(ASIGNACION);}
 "+"					{return(MAS);}
@@ -40,17 +45,21 @@ identificador {letra}+
 '\n'				{return(SALTO);}
 ","					{return(COMA);}
 ";"					{lineas++;return(PUNTOYCOMA);}
-{constante}			{yylval.entero=atoi(yytext); return(CONSTANTE);}
-{identificador}		{yylval.nombre = yytext; printf("yytext: %s \n", yytext);esCorrectoIdentificador(yytext);return(IDENTIFICADOR);}
-. 					{printf("Error lexico en la linea %d \n", lineas);}
+. 					{printf("Error lexico en la linea %d /n", lineas);}
 %%
 
-void esCorrectoIdentificador(char* yytext){
-    if(strlen(yytext) > 32 ){
+int esCorrectoIdentificador(char* id){
+    if(strlen(id) > 32 ){
         printf("Error lexico en la linea %d. Ha superado la longitud para un identificador \n", lineas);
+        exit(0);
+    }else{
+        strcpy(variables[cantvariables].nombre , id);
+        variables[cantvariables].valor = 0;
+        cantvariables++;
+        return 1;
     }
+
+
 }
-
-
 
 

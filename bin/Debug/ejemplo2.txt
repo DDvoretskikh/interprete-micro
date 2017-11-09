@@ -1,0 +1,5 @@
+inicio
+	y := 5;
+	x := 2 + y;
+	escribir(x,y);
+fin
