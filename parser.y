@@ -21,6 +21,7 @@ struct variable{
 } variables[20];
 
 int cantvariables = 0;
+int valorvariable = 0;
 
 void agregarValorId(char*, int);
 int obtenerValorDeTabla(char*);
@@ -60,7 +61,8 @@ void agregarIdentificador(char*);
 
 %type <entero> Expresion
 %type <entero> VariableAsig
-
+%type <entero> ExpresionEscritura
+%type <entero> VariableEscritura
 
 
 %start Programa
@@ -77,24 +79,42 @@ Sentencia: Asignar
 		 | Escritura
 		 ;
 
-ListaDeIdentificadores: IDENTIFICADOR                               {printf("lista id \n");agregarIdentificador(yytext);}
-					  | ListaDeIdentificadores COMA IDENTIFICADOR   {printf("lista id \n");agregarIdentificador($3);}
+ListaDeIdentificadores: IDENTIFICADOR                               {printf("Ingrese valor de %s: \n",yytext);
+                                                                        scanf("%d", &valorvariable);
+                                                                        agregarIdentificador(yytext);
+                                                                        agregarValorId(yytext,valorvariable);
+                                                                        cantnombres = 0;}
+					  | ListaDeIdentificadores COMA IDENTIFICADOR   {printf("Ingrese valor de %s: \n",yytext);
+                                                                        scanf("%d", &valorvariable);
+                                                                        agregarIdentificador($3);
+                                                                        agregarValorId($3,valorvariable);
+                                                                        cantnombres = 0;}
 					  ;
-ListaDeExpresiones: Expresion
-				  | ListaDeExpresiones COMA Expresion
+ListaDeExpresiones: ExpresionEscritura                          {printf(" Resultado: %d \n", $1);}
+				  | ListaDeExpresiones COMA ExpresionEscritura  {printf(" Resultado: %d \n", $3);}
 				  ;
 
-VariableAsig: IDENTIFICADOR {$$ = obtenerValorDeTabla($1);printf("VariableID: %s \n", $1);}
+VariableAsig: IDENTIFICADOR {$$ = obtenerValorDeTabla($1);}
             ;
 
-Expresion: CONSTANTE                 { $$= $1;}
-         | VariableAsig              { $$= $1;}
-		 | Expresion MAS Expresion   { $$=$1 + $3;}
+VariableEscritura: IDENTIFICADOR {$$ = obtenerValorDeTabla(nombresid[0].id);
+                                    cantnombres=0;}
+            ;
+ExpresionEscritura: CONSTANTE        { $$= $1;printf("Valor de operacion: %d\n",$1);}
+         | VariableEscritura         { $$= $1;}
+		 | ExpresionEscritura MAS ExpresionEscritura   { $$=$1 + $3; printf("Operacion:+\n");}
+		 | ExpresionEscritura MENOS ExpresionEscritura { $$=$1 - $3; printf("Operacion: - \n");}
+		 | MENOS ExpresionEscritura { printf("Signo de operacion: - \n"); $$=-$2;}
+		 | PARENTESIS_IZQUIERDO ExpresionEscritura PARENTESIS_DERECHO {printf("(");$$=$2; printf(")");}
+		 ;
+
+Expresion:   CONSTANTE                 { $$= $1; }
+                    | VariableAsig              { $$= $1;}
+		 | Expresion MAS Expresion   { $$=$1 + $3; }
 		 | Expresion MENOS Expresion { $$=$1 - $3;}
 		 | MENOS Expresion           { $$=-$2; }
 		 | PARENTESIS_IZQUIERDO Expresion PARENTESIS_DERECHO { $$=$2; }
 		 ;
-
 
 
 Asignar: IDENTIFICADOR ASIGNACION Expresion {agregarIdentificador(nombresid[0].id);
@@ -119,11 +139,14 @@ int main(int argc, char **argv)
 {
 	if(argc>1)
 		yyin=fopen(argv[1], "rt");
-	else
-		yyin=stdin;
+	else{
+        printf("Falta elegir un archivo. \n");
+        exit(0);
+	}
+
 
 	yyparse();
-
+    printf("Cantidad de variables creadas: %d \n", cantvariables);
 	printf("Fin del analisis. \n");
 	printf("Numero de lineas analizadas: %d \n", lineas);
 
@@ -133,13 +156,11 @@ int main(int argc, char **argv)
 int obtenerValorDeTabla(char* id){
     int i;
     printf("obtValorDeTablaLeido : %s \n", id);
-    printf("cantvariables : %d \n", cantvariables);
 
     for(i=0; i< cantvariables; i++){
         char* unacosa;
         strcpy(unacosa,variables[i].id);
         if((strcmp(id, unacosa) == 0)){
-            printf("obtvalortabla: %s, %d \n", variables[i].id, variables[i].valor);
             return variables[i].valor;
         }
     }
@@ -150,11 +171,10 @@ int obtenerValorDeTabla(char* id){
 
 void agregarValorId(char* nombre, int valor){
     int i;
-    printf("AgregoValorID: %s \n", nombre);
     for(i=0; i< cantvariables; i++){
         if(strcmp(variables[i].id, nombre) == 0){
             variables[i].valor = valor;
-            printf("Se agrego valor correctamente. Valor: %d", variables[i].valor);
+            printf("Se agrego valor correctamente. Valor: %d \n", variables[i].valor);
         }
     }
 }
@@ -165,7 +185,6 @@ void  agregarIdentificador(char* nombre){
             printf("Agrego ID: %s \n",variables[cantvariables].id);
             variables[cantvariables].valor = 0;
             ++cantvariables;
-            printf("CantVariablesCreadas: %d\n", cantvariables);
         }
 }
 int existeIdentificadorLex(char* id){

@@ -374,11 +374,11 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[45] =
     {   0,
-        0,    0,   18,   16,    1,   17,   16,    9,   10,    7,
-       12,    8,   14,   16,   13,   15,   15,   15,   15,   15,
-        1,    0,   14,    6,   15,   15,   15,   15,   15,   11,
-       15,    3,   15,   15,   15,   15,    4,   15,   15,   15,
-        2,   15,    5,    0
+        0,    0,   18,   16,    1,   17,   16,   11,   12,    9,
+       14,   10,    6,   16,   15,    7,    7,    7,    7,    7,
+        1,    0,    6,    8,    7,    7,    7,    7,    7,   13,
+        7,    3,    7,    7,    7,    7,    4,    7,    7,    7,
+        2,    7,    5,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -788,70 +788,69 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 37 "scaner.l"
-{return(ASIGNACION);}
+#line 38 "scaner.l"
+{yylval.entero=atoi(yytext); return(CONSTANTE);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 38 "scaner.l"
-{return(MAS);}
-	YY_BREAK
-case 8:
-YY_RULE_SETUP
 #line 39 "scaner.l"
-{return(MENOS);}
-	YY_BREAK
-case 9:
-YY_RULE_SETUP
-#line 40 "scaner.l"
-{return(PARENTESIS_IZQUIERDO);}
-	YY_BREAK
-case 10:
-YY_RULE_SETUP
-#line 41 "scaner.l"
-{return(PARENTESIS_DERECHO);}
-	YY_BREAK
-case 11:
-/* rule 11 can match eol */
-YY_RULE_SETUP
-#line 42 "scaner.l"
-{return(SALTO);}
-	YY_BREAK
-case 12:
-YY_RULE_SETUP
-#line 43 "scaner.l"
-{return(COMA);}
-	YY_BREAK
-case 13:
-YY_RULE_SETUP
-#line 44 "scaner.l"
-{lineas++;return(PUNTOYCOMA);}
-	YY_BREAK
-case 14:
-YY_RULE_SETUP
-#line 45 "scaner.l"
-{yylval.entero=atoi(yytext); return(CONSTANTE);}
-	YY_BREAK
-case 15:
-YY_RULE_SETUP
-#line 46 "scaner.l"
 {yylval.nombre = yytext;
-                     printf("yytext: %s \n", yytext);
                      esCorrectoIdentificador(yytext);
                      guardarNombre(yytext);
                      return(IDENTIFICADOR);}
 	YY_BREAK
-case 16:
+case 8:
+YY_RULE_SETUP
+#line 44 "scaner.l"
+{return(ASIGNACION);}
+	YY_BREAK
+case 9:
+YY_RULE_SETUP
+#line 45 "scaner.l"
+{return(MAS);}
+	YY_BREAK
+case 10:
+YY_RULE_SETUP
+#line 46 "scaner.l"
+{return(MENOS);}
+	YY_BREAK
+case 11:
+YY_RULE_SETUP
+#line 47 "scaner.l"
+{return(PARENTESIS_IZQUIERDO);}
+	YY_BREAK
+case 12:
+YY_RULE_SETUP
+#line 48 "scaner.l"
+{return(PARENTESIS_DERECHO);}
+	YY_BREAK
+case 13:
+/* rule 13 can match eol */
+YY_RULE_SETUP
+#line 49 "scaner.l"
+{return(SALTO);}
+	YY_BREAK
+case 14:
+YY_RULE_SETUP
+#line 50 "scaner.l"
+{return(COMA);}
+	YY_BREAK
+case 15:
 YY_RULE_SETUP
 #line 51 "scaner.l"
+{lineas++;return(PUNTOYCOMA);}
+	YY_BREAK
+case 16:
+YY_RULE_SETUP
+#line 52 "scaner.l"
 {printf("Error lexico en la linea %d \n", lineas);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 52 "scaner.l"
+#line 53 "scaner.l"
 ECHO;
 	YY_BREAK
-#line 855 "lex.yy.c"
+#line 854 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1845,7 +1844,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 51 "scaner.l"
+#line 52 "scaner.l"
 
 
 

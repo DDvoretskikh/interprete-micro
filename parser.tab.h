@@ -68,7 +68,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 34 "parser.y"
+#line 35 "parser.y"
 
 	int entero;
     char* nombre;

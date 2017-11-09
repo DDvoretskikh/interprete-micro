@@ -34,6 +34,13 @@ identificador {letra}+
 "leer"				{return(LEER);}
 "escribir"			{return(ESCRIBIR);}
 
+
+{constante}			{yylval.entero=atoi(yytext); return(CONSTANTE);}
+{identificador}		{yylval.nombre = yytext;
+                     esCorrectoIdentificador(yytext);
+                     guardarNombre(yytext);
+                     return(IDENTIFICADOR);}
+
 ":="				{return(ASIGNACION);}
 "+"					{return(MAS);}
 "-"					{return(MENOS);}
@@ -42,12 +49,6 @@ identificador {letra}+
 '\n'				{return(SALTO);}
 ","					{return(COMA);}
 ";"					{lineas++;return(PUNTOYCOMA);}
-{constante}			{yylval.entero=atoi(yytext); return(CONSTANTE);}
-{identificador}		{yylval.nombre = yytext;
-                     printf("yytext: %s \n", yytext);
-                     esCorrectoIdentificador(yytext);
-                     guardarNombre(yytext);
-                     return(IDENTIFICADOR);}
 . 					{printf("Error lexico en la linea %d \n", lineas);}
 %%
 

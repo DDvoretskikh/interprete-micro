@@ -2,7 +2,7 @@ inicio
 	leer( a ,b);
 	y := 1;
 	x := 3;
-	escribir( a );
+	escribir( a , y , x , 7+8 );
 fin
 
 
