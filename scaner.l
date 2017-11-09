@@ -3,10 +3,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-int lineas = 0;
+
+void esCorrectoIdentificador(char* s);
+
+void yyerror(char* s);
+int yyparse(void);
+
 %}
 
-%option noyywrap
+%option yylineno
 
 espacio [ \t]+
 digito [0-9]
@@ -22,8 +27,8 @@ identificador ([a-z]|[A-Z])([a-z]|[A-Z]|[0-9])*
 "fin"				{return(FIN);}
 "leer"				{return(LEER);}
 "escribir"			{return(ESCRIBIR);}
-{identificador}		{esCorrectoIdentificador(yytext); return(IDENTIFICADOR);}
-{constante}			{yylval.entero=atoi(yytext); return(CONSTANTE);}
+{identificador}		{esCorrectoIdentificador(yytext);}
+{constante}			{yylval.enteroVal=atoi(yytext); return(CONSTANTE);}
 
 ":="				{return(ASIGNACION);}
 "+"					{return(MAS);}
@@ -32,15 +37,38 @@ identificador ([a-z]|[A-Z])([a-z]|[A-Z]|[0-9])*
 ")"					{return(PARENTESIS_DERECHO);}
 '\n'				{return(SALTO);}
 ","					{return(COMA);}
-";"					{lineas++;return(PUNTOYCOMA);}
-. 					{printf("Error lexico en la linea %d /n", lineas);}
+";"					{return(PUNTOYCOMA);}
+. 					{printf("Error lexico en la linea %d /n", yylineno);}
 %%
 
 void esCorrectoIdentificador(char* yytext){
-    yylval.entero=atoi(yytext);
     if(strlen(yytext) > 32 ){
         printf("Error lexico en la linea %d. Ha superado la longitud para un identificador \n", lineas);
+        exit(0)
     }
+    yylval.stringVal = yytext;
+    return IDENTIFICADOR;
+
+}
+
+
+void yyerror(char *s) {
+  printf("Error sintactico %s \n",s);
+}
+
+int main(int argc, char **argv)
+{
+	if(argc == 2) {
+		FILE* archivo = fopen(argv[1], "rt");
+		if (archivo == NULL) {
+			printf("Error al abrir el archivo. \n")
+			exit(0)
+		} else {
+			yyin = archivo;
+			yyparse();
+			fclose(archivo);
+		}
+	}
 }
 
 
