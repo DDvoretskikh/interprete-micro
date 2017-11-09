@@ -50,3 +50,30 @@
 
 1510197349 c:\users\elect\desktop\lexyacc\parser.tab.h
 
+1510245553 source:c:\users\elect\desktop\lexyacc\interprete-micro\lex.yy.c
+	<stdio.h>
+	<string.h>
+	<errno.h>
+	<stdlib.h>
+	<inttypes.h>
+	"parser.tab.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+
+1510245552 c:\users\elect\desktop\lexyacc\interprete-micro\parser.tab.h
+
+1510245552 source:c:\users\elect\desktop\lexyacc\interprete-micro\parser.tab.c
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stddef.h>
+	<libintl.h>
+	<alloca.h>
+	<malloc.h>
+	<stdlib.h>
+	<stdlib.h>
+	<stdio.h>
+

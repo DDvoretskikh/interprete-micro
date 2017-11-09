@@ -6,11 +6,13 @@
 
 int lineas = 0;
 
-
+struct nombreId{
+    char id[50];
+}nombresid[50];
+int cantnombres = 0 ;
 
 void esCorrectoIdentificador(char*);
-
-
+void guardarNombre(char*);
 
 %}
 
@@ -41,7 +43,11 @@ identificador {letra}+
 ","					{return(COMA);}
 ";"					{lineas++;return(PUNTOYCOMA);}
 {constante}			{yylval.entero=atoi(yytext); return(CONSTANTE);}
-{identificador}		{yylval.nombre = yytext; printf("yytext: %s \n", yytext);esCorrectoIdentificador(yytext);return(IDENTIFICADOR);}
+{identificador}		{yylval.nombre = yytext;
+                     printf("yytext: %s \n", yytext);
+                     esCorrectoIdentificador(yytext);
+                     guardarNombre(yytext);
+                     return(IDENTIFICADOR);}
 . 					{printf("Error lexico en la linea %d \n", lineas);}
 %%
 
@@ -51,6 +57,9 @@ void esCorrectoIdentificador(char* yytext){
     }
 }
 
-
+void guardarNombre(char* id){
+    strcpy(nombresid[cantnombres].id, id);
+    ++cantnombres;
+}
 
 

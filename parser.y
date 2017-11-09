@@ -9,6 +9,10 @@ extern void yyerror(char *s);
 extern int lineas;
 extern char* yytext;
 
+extern int cantnombres;
+extern struct nombreId{
+    char id[50];
+}nombresid[50];
 
 
 struct variable{
@@ -56,8 +60,8 @@ void agregarIdentificador(char*);
 
 %type <entero> Expresion
 %type <entero> VariableAsig
-%type <nombre> Variable
-%type <nombre> Asignar
+
+
 
 %start Programa
 
@@ -80,9 +84,6 @@ ListaDeExpresiones: Expresion
 				  | ListaDeExpresiones COMA Expresion
 				  ;
 
-
-Variable: IDENTIFICADOR {agregarIdentificador(yytext);$$ = yytext ;printf("VariableIDParaAsignar: %s \n", yytext); }
-            ;
 VariableAsig: IDENTIFICADOR {$$ = obtenerValorDeTabla($1);printf("VariableID: %s \n", $1);}
             ;
 
@@ -96,7 +97,10 @@ Expresion: CONSTANTE                 { $$= $1;}
 
 
 
-Asignar: Variable ASIGNACION Expresion
+Asignar: IDENTIFICADOR ASIGNACION Expresion {agregarIdentificador(nombresid[0].id);
+                                             printf("VariableIDParaAsignar: %s \n",nombresid[0].id);
+                                             agregarValorId(nombresid[0].id, $3);
+                                             cantnombres = 0;}
 		  ;
 
 Lectura: LEER PARENTESIS_IZQUIERDO ListaDeIdentificadores PARENTESIS_DERECHO
@@ -150,6 +154,7 @@ void agregarValorId(char* nombre, int valor){
     for(i=0; i< cantvariables; i++){
         if(strcmp(variables[i].id, nombre) == 0){
             variables[i].valor = valor;
+            printf("Se agrego valor correctamente. Valor: %d", variables[i].valor);
         }
     }
 }
@@ -160,7 +165,7 @@ void  agregarIdentificador(char* nombre){
             printf("Agrego ID: %s \n",variables[cantvariables].id);
             variables[cantvariables].valor = 0;
             ++cantvariables;
-            printf("CantVariablesCreadas: %d", cantvariables);
+            printf("CantVariablesCreadas: %d\n", cantvariables);
         }
 }
 int existeIdentificadorLex(char* id){
@@ -173,14 +178,5 @@ int existeIdentificadorLex(char* id){
     return 0;
 }
 
-int existeIdentificador(char* id){
-	int i;
-	 for(i=0; i< cantvariables; i++){
-        if(strcmp(variables[i].id, id)==0){
-            printf("extID: El identificador %s ha sido correctamente declarado. \n ", variables[i].id);
-        }
-    }
-	 yyerror("extId: El identificador no ha sido declarado antes. Error semantico \n");
-	 exit(0);
-}
+
 

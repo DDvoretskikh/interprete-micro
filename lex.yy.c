@@ -485,13 +485,15 @@ char *yytext;
 
 int lineas = 0;
 
-
+struct nombreId{
+    char id[50];
+}nombresid[50];
+int cantnombres = 0 ;
 
 void esCorrectoIdentificador(char*);
+void guardarNombre(char*);
 
-
-
-#line 495 "lex.yy.c"
+#line 497 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -673,10 +675,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 27 "scaner.l"
+#line 29 "scaner.l"
 
 
-#line 680 "lex.yy.c"
+#line 682 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -761,91 +763,95 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 29 "scaner.l"
+#line 31 "scaner.l"
 {/* Ignoramos espacios en blanco */}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 30 "scaner.l"
+#line 32 "scaner.l"
 {return(INICIO);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 31 "scaner.l"
+#line 33 "scaner.l"
 {return(FIN);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 32 "scaner.l"
+#line 34 "scaner.l"
 {return(LEER);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 33 "scaner.l"
+#line 35 "scaner.l"
 {return(ESCRIBIR);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 35 "scaner.l"
+#line 37 "scaner.l"
 {return(ASIGNACION);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 36 "scaner.l"
+#line 38 "scaner.l"
 {return(MAS);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 37 "scaner.l"
+#line 39 "scaner.l"
 {return(MENOS);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 38 "scaner.l"
+#line 40 "scaner.l"
 {return(PARENTESIS_IZQUIERDO);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 39 "scaner.l"
+#line 41 "scaner.l"
 {return(PARENTESIS_DERECHO);}
 	YY_BREAK
 case 11:
 /* rule 11 can match eol */
 YY_RULE_SETUP
-#line 40 "scaner.l"
+#line 42 "scaner.l"
 {return(SALTO);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 41 "scaner.l"
+#line 43 "scaner.l"
 {return(COMA);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 42 "scaner.l"
+#line 44 "scaner.l"
 {lineas++;return(PUNTOYCOMA);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 43 "scaner.l"
+#line 45 "scaner.l"
 {yylval.entero=atoi(yytext); return(CONSTANTE);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 44 "scaner.l"
-{yylval.nombre = yytext; printf("yytext: %s \n", yytext);esCorrectoIdentificador(yytext);return(IDENTIFICADOR);}
+#line 46 "scaner.l"
+{yylval.nombre = yytext;
+                     printf("yytext: %s \n", yytext);
+                     esCorrectoIdentificador(yytext);
+                     guardarNombre(yytext);
+                     return(IDENTIFICADOR);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 45 "scaner.l"
+#line 51 "scaner.l"
 {printf("Error lexico en la linea %d \n", lineas);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 46 "scaner.l"
+#line 52 "scaner.l"
 ECHO;
 	YY_BREAK
-#line 849 "lex.yy.c"
+#line 855 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1839,7 +1845,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 45 "scaner.l"
+#line 51 "scaner.l"
 
 
 
@@ -1849,7 +1855,10 @@ void esCorrectoIdentificador(char* yytext){
     }
 }
 
-
+void guardarNombre(char* id){
+    strcpy(nombresid[cantnombres].id, id);
+    ++cantnombres;
+}
 
 
 
